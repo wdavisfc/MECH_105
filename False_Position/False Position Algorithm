@@ -1,9 +1,8 @@
 %% Will Davis
-% Colorado State University
+% ColoradoStateUniversity
 
-%% Function Start
-function[root, fx, ea, iter] = falsePosition(func, xl, xu, es, maxit, varargin)
-
+function [root, fx, ea, iter] = falsePosition(func, xl, xu, es, maxit, varargin)
+%falsePosition finds the root of a function using false position method
 %% Tests
 if nargin <3
     error('Need at least 3 Variables')
@@ -18,13 +17,13 @@ if  nargin < 4 || isempty(es)
     es = .0001;
 end
 
-if nargin < 5 ||isempty(maxit)
+if nargin < 5 || isempty(maxit)
     maxit = 50;
 end
 
 
 %% Variables
-iter = 0;
+test_iter = 0;
 ea = 100;
 x_0 = xl;
 
@@ -44,13 +43,13 @@ while (1)
     else
         ea = 0;
     end
-    if ea <= es || iter >= maxit
+    if ea <= es || test_iter >= maxit
         break
     end
-    iter = iter + 1;
+    test_iter = test_iter + 1;
 end
-
 root = x_0
 fx = func(x_0)
-itertest = iter
+iter = test_iter
 end
+
