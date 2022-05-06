@@ -1,0 +1,42 @@
+%% Will Davis
+% ColoradoStateUniversity
+
+[m,n] = size(A);
+P = eye(n);
+L = eye(n);
+U = A;
+count = eye(n);
+
+
+
+if m ~= n
+    error('Matrix must be square')
+end
+
+%% Problem
+
+column = A(:,1);
+column = abs(column);
+[Value,location] = max(column);
+U([1 location],:) = U([location 1],:)
+P([1 location],:) = P([location 1],:)
+
+A = A
+for E1 = 1:n-1
+
+    for E2 = E1+1 : n
+        L(E2,E1) = U(E2,E1)/U(E1,E1);
+        U(E2,E1+1:n) = U(E2,E1+1:n) - L(E2,E1) * U(E1,E1+1:n);
+        U(E2,E1) = 0;
+    end
+end
+
+format long
+U = U
+L = L
+
+
+P*a == L*U
+
+t1 = P*A
+t2 = L*U
