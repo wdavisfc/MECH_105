@@ -1,0 +1,77 @@
+%% Will Davis
+%% ColoradoStateUniversity
+
+%% Sorting and Eliminating Outliers
+x = [1 2 3 4 5 6];
+y = [1 2 1.3 3.75 2.5 100];
+[f,sizex] = size(x);
+[z,sizey] = size(y);
+if sizex ~= sizey
+    error('The input vectors need to be the same size')
+end
+
+[sortedY, sortOrder] = sort(y);
+sortedX = x(sortOrder);
+
+
+
+[NotNeeded,n] = size(x);
+
+quartile_1 = (n+1)/4;
+quartile_3 = (3*n+3)/4;
+
+Iquartile = quartile_3 - quartile_1;
+
+for i = 1:n
+    if y(i) > (1.5*Iquartile) + quartile_3 || y(i) < quartile_1 - (1.5*Iquartile)
+        y(i) = [];
+        x(i) = [];
+    end
+end
+
+[sortedY, sortOrder] = sort(y);
+sortedX = x(sortOrder);
+
+fY = sortedY
+fX = sortedX
+
+
+
+[NotNeeded,n] = size(x);
+
+
+%% Line of Best Fit from Normal Equations
+
+slope = ((n*sum(fX.*fY)) - ((sum(fX)) .* (sum(fY))))./((n.*sum(fX.^2)) - ((sum(fX)).^2)) % Equation to find slope
+
+intercept = mean(fY) - slope.*(mean(fX)) % Equation to find y-intercept
+
+
+
+F = @(x) slope*(x) + intercept;
+
+%% Plotting for Visual
+hold on 
+plot(fX,fY,'R*')
+fplot(F,'b--')
+xlim([0 fX(n)])
+hold off
+
+%% Finding R-Squared
+meanY = mean(fY);
+SSRtot = [];
+for i = 1:n
+    SSRtot(i) = (fY(i) - meanY)^2;
+end
+
+sumSSRtot = sum(SSRtot);
+
+SSRres = [];
+for i = 1:n
+    SSRres(i) = (fY(i) - F(fX(i)))^2;
+end
+
+sumSSRres = sum(SSRres);
+
+
+Rsquared = 1 - (sumSSRres/sumSSRtot)
