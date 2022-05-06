@@ -1,0 +1,32 @@
+%% Will Davis
+% ColoradoStateUniversity
+
+function [A] = specialMatrix(n,m)
+% This function returns a matrix A as described in the problem statement
+% Inputs n is the number of rows, and m the number of columns
+
+% setup matrix
+A = zeros(n,m);
+
+
+while(1) % "while" loop to build matrix (changes zeros into wanted numbers)
+    if n <= 0 || m <= 0 || nargin ~= 2 % Tests for valid input
+        error('invalid input')
+        break
+    else
+        for width = 1:m % "for" loop that makes the values in the first row the index number of each column
+            A(1,width) = width;
+        end
+        for length = 1:n % "for" loop the makes the first column values show the row number
+            A(length,1) = length;
+        end
+        for count = 0:m-2 % "for" loop that adds the element above the value and the element
+                          % to the left of the value and places this sum in the correct location
+    
+            for counter = 2:n % "for" loop that advances the row number in the correct interval
+                A(counter,count+2) = A(counter,count+1) + A(counter-1,count+2);
+            end
+        end
+        break % Stops "while loop"
+    end
+end
