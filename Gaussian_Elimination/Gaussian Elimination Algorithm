@@ -1,6 +1,15 @@
 %% Will Davis
 % ColoradoStateUniversity
 
+function [L, U, P] = luFactor(A)
+% luFactor(A)
+%	LU decomposition with pivotiing
+% inputs:
+%	A = coefficient matrix
+% outputs:
+%	L = lower triangular matrix
+%	U = upper triangular matrix
+%       P = the permutation matrix
 [m,n] = size(A);
 P = eye(n);
 L = eye(n);
@@ -21,7 +30,6 @@ column = abs(column);
 U([1 location],:) = U([location 1],:)
 P([1 location],:) = P([location 1],:)
 
-A = A
 for E1 = 1:n-1
 
     for E2 = E1+1 : n
@@ -31,12 +39,6 @@ for E1 = 1:n-1
     end
 end
 
-format long
 U = U
 L = L
-
-
-P*a == L*U
-
-t1 = P*A
-t2 = L*U
+P = P
